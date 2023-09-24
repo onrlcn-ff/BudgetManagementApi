@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3E1Zo5GsC5ym8VAAA8Dia9WstfFXi92gbY+DIf+SWJkGzwrYPp0i7uN1OH6VQ5xFLu5aoedbB0Y13jory6R+NQ==",
+  "dgSpecHash": "m0KNPmUL072Os886HgppbqNcK+tYpYrEBT4nSrbQsPOQTntOmWnxtfmVTjVlGMRbPSyzmYVeB8fQ9wYN+1VhFA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Cmd\\Documents\\WebProject\\BudgetManagementApi\\BudgetManagementApi.csproj",
+  "projectFilePath": "c:\\Users\\Cmd\\Documents\\WebProject\\BudgetManagementApi\\BudgetManagementApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Cmd\\.nuget\\packages\\fluentvalidation\\11.7.1\\fluentvalidation.11.7.1.nupkg.sha512",
     "C:\\Users\\Cmd\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Cmd\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.5\\microsoft.aspnetcore.openapi.7.0.5.nupkg.sha512",
     "C:\\Users\\Cmd\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.11\\microsoft.entityframeworkcore.7.0.11.nupkg.sha512",
