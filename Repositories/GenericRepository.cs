@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetManagementApi.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T>
+        where T : class
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -16,10 +17,6 @@ namespace BudgetManagementApi.Repositories
         {
             _context = context;
             _dbSet = _context.Set<T>();
-        }
-        public Task DeleteAsync(T entity)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -30,7 +27,7 @@ namespace BudgetManagementApi.Repositories
         public async Task<T> GetById(object id)
         {
             return await _dbSet.FindAsync(id);
-        }
+}
 
         public async Task InsertAsync(T entity)
         {
@@ -43,6 +40,16 @@ namespace BudgetManagementApi.Repositories
             _dbSet.Attach(entity);
             _dbSet.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            T entityToDelete = await _dbSet.FindAsync(id);
+            if (entityToDelete is not null)
+            {
+                _dbSet.Remove(entityToDelete);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

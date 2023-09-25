@@ -11,15 +11,16 @@ namespace BudgetManagementApi.Models
     {
         [Key]
         public int SavingId { get; set; }
+
         [ForeignKey("User")]
         public int UserId { get; set; }
 
         [Required]
-        public decimal Amount{ get; set; }
+        public decimal Amount { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Goal { get; set; }
-        public virtual User User { get; set; }
-        
+        public virtual User.User User { get; set; }
     }
 }

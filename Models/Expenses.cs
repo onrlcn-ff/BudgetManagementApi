@@ -27,6 +27,6 @@ namespace BudgetManagementApi.Models
         [Required]
         public ExpenseCategory Category{ get; set; }
         public DateTime Date{ get; set; }
-        public virtual User User { get; set; }
+        public virtual User.User User { get; set; }
     }
 }

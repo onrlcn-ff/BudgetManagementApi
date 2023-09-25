@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetManagementApi.Models;
+using BudgetManagementApi.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetManagementApi.Data
