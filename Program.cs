@@ -2,6 +2,7 @@ using System.Text;
 using BudgetManagementApi.Data;
 using BudgetManagementApi.Models.User;
 using BudgetManagementApi.Repositories;
+using BudgetManagementApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -40,7 +41,7 @@ builder.Services
             )
         };
     });
-
+builder.Services.AddScoped<ITokenService, TokenService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
