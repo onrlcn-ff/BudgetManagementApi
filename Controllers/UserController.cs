@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using BudgetManagementApi.Models;
 using BudgetManagementApi.Models.User;
@@ -13,7 +5,6 @@ using BudgetManagementApi.Repositories;
 using BudgetManagementApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BudgetManagementApi.Controllers
 {
