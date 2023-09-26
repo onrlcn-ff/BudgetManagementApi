@@ -38,7 +38,7 @@ namespace BudgetManagementApi.Controllers
             var userValidate = await _userRepository.LoginAsync(user);
             if (userValidate == null)
                 return Unauthorized();
-            return Ok(user);
+            return Ok(userDto);
         }
 
         [HttpPost("register")]
@@ -48,7 +48,7 @@ namespace BudgetManagementApi.Controllers
             var result = await _userRepository.RegisterAsync(user);
             if (result is null)
                 return BadRequest("User could be not created.");
-            return CreatedAtAction(nameof(Register), result);
+            return CreatedAtAction(nameof(Register), userDto);
         }
     }
 }

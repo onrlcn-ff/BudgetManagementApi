@@ -22,15 +22,23 @@ namespace BudgetManagementApi.Repositories
 
         public async Task<User> LoginAsync(User user)
         {
-            return await _dbSet.FirstOrDefaultAsync(
-                u => u.UserName == user.UserName && u.PasswordHash == user.PasswordHash
-            );
+            User userDb = _dbSet.FirstOrDefault(u => u.UserName == user.UserName);
+            if (userDb is not null && BCrypt.Net.BCrypt.Verify(user.Password, userDb.Password))
+            {
+                return userDb;
+            }
+            return null;
         }
 
         public async Task<User> RegisterAsync(User user)
         {
             try
             {
+                User userDb = _dbSet.FirstOrDefault(u => u.UserName == user.UserName);
+                if (userDb is not null)
+                    throw new InvalidOperationException("Username already taken");
+
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 await _dbSet.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;

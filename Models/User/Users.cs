@@ -10,13 +10,16 @@ namespace BudgetManagementApi.Models.User
     {
         [Key]
         public int UserId { get; set; }
+
         [Required]
         public string UserName { get; set; }
+
         [Required]
-        public byte[] PasswordHash{ get; set; }
+        public string Password { get; set; }
+
         [Required]
         public string Email { get; set; }
-        
+
         public List<Income> Incomes { get; set; }
         public List<Expense> Expenses { get; set; }
         public List<Saving> Savings { get; set; }
