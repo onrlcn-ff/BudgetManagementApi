@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BudgetManagementApi.Models;
 using BudgetManagementApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetManagementApi.Controllers
@@ -42,12 +44,26 @@ namespace BudgetManagementApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIncome([FromBody] Income income)
+        public async Task<IActionResult> CreateIncome([FromBody] IncomeDto incomeDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+            int userId = int.Parse(userIdClaim.Value);
+
+            var income = new Income
+            {
+                UserId = userId,
+                Amount = incomeDto.Amount,
+                Description = incomeDto.Description,
+                Date = DateTime.Now
+            };
+
             await _incomeRepository.InsertAsync(income);
-            return CreatedAtAction(nameof(GetIncomeById), new { id = income.IncomeId }, income);
+            return CreatedAtAction(nameof(GetIncomeById), new { id = income.IncomeId }, incomeDto);
         }
 
         [HttpPut("{id}")]
