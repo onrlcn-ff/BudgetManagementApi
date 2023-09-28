@@ -10,7 +10,7 @@ namespace BudgetManagementApi.Models
     public class Income
     {
         [Key]
-        public int IncomeId { get; set; }
+        public int Id { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
 
@@ -20,6 +20,7 @@ namespace BudgetManagementApi.Models
         [Required]
         [StringLength(255)]
         public string Description { get; set; }
+
 
         public DateTime Date{ get; set; }
 

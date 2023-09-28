@@ -18,7 +18,7 @@ namespace BudgetManagementApi.Models
     public class Expense
     {
         [Key]
-        public int ExpensesId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

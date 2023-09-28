@@ -19,15 +19,18 @@ namespace BudgetManagementApi.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(int userId)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(e => EF.Property<int>(e, "UserId") == userId).ToListAsync();
         }
 
-        public async Task<T> GetById(object id)
+        public async Task<T> GetById(int id, int userId)
         {
-            return await _dbSet.FindAsync(id);
-}
+            var entity = await _dbSet
+                .Where(e => EF.Property<int>(e, "UserId") == userId)
+                .FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+            return entity;
+        }
 
         public async Task InsertAsync(T entity)
         {
@@ -42,13 +45,17 @@ namespace BudgetManagementApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(object id)
+        public async Task DeleteAsync(int id)
         {
             T entityToDelete = await _dbSet.FindAsync(id);
             if (entityToDelete is not null)
             {
                 _dbSet.Remove(entityToDelete);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Object Not Found");
             }
         }
     }

@@ -10,7 +10,7 @@ namespace BudgetManagementApi.Models
     public class Saving
     {
         [Key]
-        public int SavingId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

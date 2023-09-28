@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace BudgetManagementApi.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T>
+        where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T> GetById(object id);
+        Task<IEnumerable<T>> GetAllAsync(int userId);
+        Task<T> GetById(int id, int userId);
         Task InsertAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(object id);
+        Task DeleteAsync(int id);
     }
 }
