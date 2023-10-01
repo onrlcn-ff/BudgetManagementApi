@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace BudgetManagementApi.Models
 {
-    public class Income
+    public class Income : IEntity
     {
         [Key]
         public int Id { get; set; }
+
         [ForeignKey("User")]
         public int UserId { get; set; }
 
@@ -21,8 +22,7 @@ namespace BudgetManagementApi.Models
         [StringLength(255)]
         public string Description { get; set; }
 
-
-        public DateTime Date{ get; set; }
+        public DateTime Date { get; set; }
 
         public virtual User.User User { get; set; }
     }

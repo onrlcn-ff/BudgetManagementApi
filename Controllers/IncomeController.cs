@@ -56,13 +56,13 @@ namespace BudgetManagementApi.Controllers
                 return Unauthorized();
             int userId = int.Parse(userIdClaim.Value);
 
-            var income = _incomeRepository.GetById(id, userId);
+            var income = await _incomeRepository.GetById(id);
             if (income is null)
                 return NotFound();
 
             var incomeDto = _mapper.Map<IncomeDto>(income);
 
-            return Ok(income);
+            return Ok(incomeDto);
         }
 
         [HttpPost]

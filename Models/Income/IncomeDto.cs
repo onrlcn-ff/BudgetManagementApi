@@ -11,5 +11,7 @@ namespace BudgetManagementApi.Models
         [Required]
         [StringLength(255)]
         public string Description { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

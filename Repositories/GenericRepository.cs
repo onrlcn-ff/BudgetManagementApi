@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetManagementApi.Data;
+using BudgetManagementApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetManagementApi.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T>
-        where T : class
+        where T : class, IEntity
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -24,11 +25,11 @@ namespace BudgetManagementApi.Repositories
             return await _dbSet.Where(e => EF.Property<int>(e, "UserId") == userId).ToListAsync();
         }
 
-        public async Task<T> GetById(int id, int userId)
+        public async Task<T> GetById(int id)
         {
             var entity = await _dbSet
-                .Where(e => EF.Property<int>(e, "UserId") == userId)
-                .FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+                .Where(e => EF.Property<int>(e, "Id") == id)
+                .FirstOrDefaultAsync();
             return entity;
         }
 
