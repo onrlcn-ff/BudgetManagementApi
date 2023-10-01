@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using AutoMapper;
 using BudgetManagementApi.Models;
 using BudgetManagementApi.Repositories;
@@ -14,19 +10,19 @@ namespace BudgetManagementApi.Controllers
     [ApiController]
     [Route("api/[controller]s")]
     [Authorize]
-    public class IncomeController : ControllerBase
+    public class ExpenseController : ControllerBase
     {
-        private readonly ILogger<IncomeController> _logger;
-        private readonly IGenericRepository<Income> _incomeRepository;
+        private readonly ILogger<ExpenseController> _logger;
+        private readonly IGenericRepository<Expense> _expenseRepository;
         private readonly IMapper _mapper;
 
-        public IncomeController(
-            IGenericRepository<Income> incomeRepository,
-            ILogger<IncomeController> logger,
+        public ExpenseController(
+            IGenericRepository<Expense> expenseRepository,
+            ILogger<ExpenseController> logger,
             IMapper mapper
         )
         {
-            _incomeRepository = incomeRepository;
+            _expenseRepository = expenseRepository;
             _logger = logger;
             _mapper = mapper;
         }
@@ -40,12 +36,12 @@ namespace BudgetManagementApi.Controllers
 
             int userId = int.Parse(userIdClaim.Value);
 
-            IEnumerable<Income> incomes = await _incomeRepository.GetAllAsync(userId);
-            List<IncomeDto> incomeDtos = new List<IncomeDto>();
+            IEnumerable<Expense> expenses = await _expenseRepository.GetAllAsync(userId);
+            List<ExpenseDto> expenseDtos = new List<ExpenseDto>();
 
-            incomes.ToList().ForEach(i => incomeDtos.Add(_mapper.Map<IncomeDto>(i)));
+            expenses.ToList().ForEach(i => expenseDtos.Add(_mapper.Map<ExpenseDto>(i)));
 
-            return Ok(incomeDtos);
+            return Ok(expenseDtos);
         }
 
         [HttpGet("{id}")]
@@ -56,17 +52,17 @@ namespace BudgetManagementApi.Controllers
                 return Unauthorized();
             int userId = int.Parse(userIdClaim.Value);
 
-            var income = _incomeRepository.GetById(id, userId);
-            if (income is null)
+            var expense = await _expenseRepository.GetById(id, userId);
+            if (expense is null)
                 return NotFound();
 
-            var incomeDto = _mapper.Map<IncomeDto>(income);
+            var expenseDto = _mapper.Map<ExpenseDto>(expense);
 
-            return Ok(incomeDto);
+            return Ok(expenseDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIncome([FromBody] IncomeDto incomeDto)
+        public async Task<IActionResult> CreateIncome([FromBody] ExpenseDto expenseDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -76,39 +72,38 @@ namespace BudgetManagementApi.Controllers
                 return Unauthorized();
             int userId = int.Parse(userIdClaim.Value);
 
-            var income = new Income
+            var expense = new Expense
             {
                 UserId = userId,
-                Amount = incomeDto.Amount,
-                Description = incomeDto.Description,
-                Date = incomeDto.Date
+                Amount = expenseDto.Amount,
+                Description = expenseDto.Description,
+                Date = expenseDto.Date
             };
 
-            await _incomeRepository.InsertAsync(income);
-            return CreatedAtAction(nameof(CreateIncome), new { id = income.Id }, incomeDto);
+            await _expenseRepository.InsertAsync(expense);
+            return CreatedAtAction(nameof(CreateIncome), new { id = expense.Id }, expenseDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateIncome(int id, [FromBody] IncomeDto incomeDto)
+        public async Task<IActionResult> UpdateIncome(int id, [FromBody] ExpenseDto expenseDto)
         {
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null)
                 return Unauthorized();
             int userId = int.Parse(userIdClaim.Value);
 
-            Income income = _mapper.Map<Income>(incomeDto);
-
-            income.Id = id;
-            income.UserId = userId;
-
-            await _incomeRepository.UpdateAsync(income);
+            Expense expense = _mapper.Map<Expense>(expenseDto);
+            expense.Id = id;
+            expense.Date = expenseDto.Date;
+            expense.UserId = userId;
+            await _expenseRepository.UpdateAsync(expense);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIncomeById(int id)
         {
-            await _incomeRepository.DeleteAsync(id);
+            await _expenseRepository.DeleteAsync(id);
             return NoContent();
         }
     }
