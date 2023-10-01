@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManagementApi.Models
 {
-    public class Income : IEntity
+    public class Income 
     {
         [Key]
         public int Id { get; set; }

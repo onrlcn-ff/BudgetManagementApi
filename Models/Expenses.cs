@@ -15,7 +15,7 @@ namespace BudgetManagementApi.Models
         Fun
     }
 
-    public class Expense : IEntity
+    public class Expense 
     {
         [Key]
         public int Id { get; set; }

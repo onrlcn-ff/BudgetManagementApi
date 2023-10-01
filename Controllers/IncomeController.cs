@@ -56,7 +56,7 @@ namespace BudgetManagementApi.Controllers
                 return Unauthorized();
             int userId = int.Parse(userIdClaim.Value);
 
-            var income = await _incomeRepository.GetById(id);
+            var income = await _incomeRepository.GetById(id, userId);
             if (income is null)
                 return NotFound();
 

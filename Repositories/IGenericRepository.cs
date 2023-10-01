@@ -7,10 +7,10 @@ using BudgetManagementApi.Models;
 namespace BudgetManagementApi.Repositories
 {
     public interface IGenericRepository<T>
-        where T : IEntity
+        where T : class
     {
         Task<IEnumerable<T>> GetAllAsync(int userId);
-        Task<T> GetById(int id);
+        Task<T> GetById(int id, int userId);
         Task InsertAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BudgetManagementApi.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T>
-        where T : class, IEntity
+        where T : class
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -25,10 +25,10 @@ namespace BudgetManagementApi.Repositories
             return await _dbSet.Where(e => EF.Property<int>(e, "UserId") == userId).ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(int id, int userId)
         {
             var entity = await _dbSet
-                .Where(e => EF.Property<int>(e, "Id") == id)
+                .Where(e => EF.Property<int>(e, "Id") == id && EF.Property<int>(e, "UserId") == userId)
                 .FirstOrDefaultAsync();
             return entity;
         }
