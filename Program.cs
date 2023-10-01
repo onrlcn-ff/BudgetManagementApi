@@ -20,6 +20,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddAutoMapper(typeof(ExpenseProfil));
+builder.Services.AddAutoMapper(typeof(SavingProfil));
+builder.Services.AddAutoMapper(typeof(InvestmentProfile));
 builder.Services.AddAutoMapper(typeof(IncomeProfile));
 builder.Services.AddDbContext<AppDbContext>(
     options =>

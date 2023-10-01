@@ -28,7 +28,9 @@ namespace BudgetManagementApi.Repositories
         public async Task<T> GetById(int id, int userId)
         {
             var entity = await _dbSet
-                .Where(e => EF.Property<int>(e, "Id") == id && EF.Property<int>(e, "UserId") == userId)
+                .Where(
+                    e => EF.Property<int>(e, "Id") == id && EF.Property<int>(e, "UserId") == userId
+                )
                 .FirstOrDefaultAsync();
             return entity;
         }
@@ -41,9 +43,16 @@ namespace BudgetManagementApi.Repositories
 
         public async Task UpdateAsync(T entity)
         {
-            _dbSet.Attach(entity);
-            _dbSet.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            try
+            {
+                _dbSet.Attach(entity);
+                _dbSet.Entry(entity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public async Task DeleteAsync(int id)
