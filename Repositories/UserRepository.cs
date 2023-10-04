@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BudgetManagementApi.Data;
-using BudgetManagementApi.Models;
 using BudgetManagementApi.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +17,9 @@ namespace BudgetManagementApi.Repositories
 
         public async Task<User> LoginAsync(User user)
         {
-            User userDb = _dbSet.FirstOrDefault(u => u.UserName == user.UserName);
+            User userDb = await _dbSet.FirstOrDefaultAsync(
+                u => u.UserName == user.UserName && u.Email == user.Email
+            );
             if (userDb is not null && BCrypt.Net.BCrypt.Verify(user.Password, userDb.Password))
             {
                 return userDb;
@@ -34,9 +31,11 @@ namespace BudgetManagementApi.Repositories
         {
             try
             {
-                User userDb = _dbSet.FirstOrDefault(u => u.UserName == user.UserName);
+                User userDb = await _dbSet.FirstOrDefaultAsync(
+                    u => u.UserName == user.UserName || u.Email == user.Email
+                );
                 if (userDb is not null)
-                    throw new InvalidOperationException("Username already taken");
+                    throw new InvalidOperationException("Username or Email already taken");
 
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 await _dbSet.AddAsync(user);
