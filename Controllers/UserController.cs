@@ -21,7 +21,8 @@ namespace BudgetManagementApi.Controllers
             ILogger<UserController> logger,
             IUserRepository userRepository,
             IMapper mapper,
-            ITokenService tokenService)
+            ITokenService tokenService
+        )
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -47,7 +48,7 @@ namespace BudgetManagementApi.Controllers
             var result = await _userRepository.RegisterAsync(user);
             if (result is null)
                 return BadRequest("User could be not created.");
-            return CreatedAtAction(nameof(Register), userDto);
+            return Ok();
         }
     }
 }
