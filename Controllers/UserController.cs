@@ -3,6 +3,7 @@ using BudgetManagementApi.Models;
 using BudgetManagementApi.Models.User;
 using BudgetManagementApi.Repositories;
 using BudgetManagementApi.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
